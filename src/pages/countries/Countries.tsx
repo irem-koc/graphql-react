@@ -10,10 +10,12 @@ import ALL_COUNTRIES_BY_NAME from "../../query/ALL_COUNTRIES_BY_NAME";
 import { ContextType } from "../../type/ContextType";
 import Country from "../../type/country";
 import Language from "../../type/language";
+
 const PredefinedColors = ["blue-500", "red-500"];
+
 const Countries = () => {
   const { countries, setCountries, filterSearch, group } =
-    useContext<ContextType | null>(Context);
+    useContext<ContextType>(Context);
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
@@ -92,8 +94,8 @@ const Countries = () => {
       <table className="table-auto border-collapse border border-slate-400 text-center">
         <thead>
           <tr>
-            <th className="border-collapse border border-slate-400 ">Code</th>
-            <th className="border-collapse border border-slate-400">Name</th>
+            <th className="border-collapse border border-slate-400">Code</th>
+            <th className="border-collapse border border-slate-400 ">Name</th>
             <th className="border-collapse border border-slate-400">
               Currency
             </th>
