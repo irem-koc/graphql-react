@@ -7,11 +7,27 @@ import ALL_COUNTRIES_BY_CODE from "../../query/ALL_COUNTRIES_BY_CODE";
 import ALL_COUNTRIES_BY_CONTINENT from "../../query/ALL_COUNTRIES_BY_CONTINENT";
 import ALL_COUNTRIES_BY_CURRENCY from "../../query/ALL_COUNTRIES_BY_CURRENCY";
 import ALL_COUNTRIES_BY_NAME from "../../query/ALL_COUNTRIES_BY_NAME";
+import { ContextType } from "../../type/ContextType";
 import Country from "../../type/country";
 import Language from "../../type/language";
-
+const PredefinedColors = ["blue-500", "red-500"];
 const Countries = () => {
-  const { countries, setCountries, filterSearch, group } = useContext(Context);
+  const { countries, setCountries, filterSearch, group } =
+    useContext<ContextType | null>(Context);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+  const toggleSelectedItem = (index: number) => {
+    if (selectedItem === null) {
+      setSelectedItem(index);
+    } else {
+      setSelectedItem(null);
+      setCurrentColorIndex((prevIndex) =>
+        prevIndex === PredefinedColors.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+
   const searchTerm = filterSearch.trim();
   const { loading, error, data } = useQuery(ALL_COUNTRIES);
   const [filteredCountries, setFilteredCountries] = useState<
@@ -40,7 +56,7 @@ const Countries = () => {
     if (data && !loading) {
       setCountries(data);
     }
-  }, [data]);
+  }, [data, loading, setCountries]);
 
   useEffect(() => {
     console.log("aaa");
@@ -76,7 +92,7 @@ const Countries = () => {
       <table className="table-auto border-collapse border border-slate-400 text-center">
         <thead>
           <tr>
-            <th className="border-collapse border border-slate-400">Code</th>
+            <th className="border-collapse border border-slate-400 ">Code</th>
             <th className="border-collapse border border-slate-400">Name</th>
             <th className="border-collapse border border-slate-400">
               Currency
@@ -93,11 +109,20 @@ const Countries = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredCountries?.length > 0 ? (
-            filteredCountries?.map((country: Country) => (
+          {filteredCountries && filteredCountries?.length > 0 ? (
+            filteredCountries?.map((country: Country, index: number) => (
               <tr
-                className="border-collapse border border-slate-400"
+                className={`${
+                  selectedItem === null || selectedItem === index
+                    ? "cursor-pointer"
+                    : "pointer-events-none"
+                } ${
+                  selectedItem != null && selectedItem === index
+                    ? `bg-${PredefinedColors[currentColorIndex]} text-white`
+                    : ""
+                } border-collapse border border-slate-400`}
                 key={country?.code}
+                onClick={() => toggleSelectedItem(index)}
               >
                 <td className="border-collapse border border-slate-400">
                   {country?.code}
