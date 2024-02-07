@@ -56,7 +56,7 @@ const Countries = () => {
   );
   useEffect(() => {
     if (data && !loading) {
-      setCountries(data);
+      setCountries(data?.countries);
     }
   }, [data, loading, setCountries]);
 
@@ -77,7 +77,7 @@ const Countries = () => {
       setFilteredCountries(ByContinent.countries);
     } else {
       // Filtreleme terimi boşsa ya da sorgu henüz tamamlanmadıysa, tüm ülkeleri göster
-      setFilteredCountries(countries?.countries || []);
+      setFilteredCountries(countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
 
