@@ -42,67 +42,57 @@ const Dropdown = () => {
             aria-labelledby="options-menu"
           >
             <span
-              onClick={() => setGroup("Name")}
+              onClick={() => {
+                setGroup("Name");
+                setIsOpen(false);
+              }}
               className={`${
                 group === "Name"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
+                  ? "disabled bg-gray-700 text-white"
+                  : "cursor-pointer hover:bg-gray-100"
+              }  text-end block px-4 py-2 text-sm text-gray-700 `}
               role="menuitem"
             >
               Name
             </span>
             <span
-              onClick={() => setGroup("Language")}
-              className={`${
-                group === "Language"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
-              role="menuitem"
-            >
-              Language
-            </span>
-            <span
-              onClick={() => setGroup("Continent")}
+              onClick={() => {
+                setGroup("Continent");
+                setIsOpen(false);
+              }}
               className={`${
                 group === "Continent"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
+                  ? "disabled bg-gray-700 text-white"
+                  : "cursor-pointer hover:bg-gray-100"
+              }  text-end block px-4 py-2 text-sm text-gray-700`}
               role="menuitem"
             >
               Continent
             </span>
             <span
-              onClick={() => setGroup("Native")}
+              onClick={() => {
+                setGroup("Currency");
+                setIsOpen(false);
+              }}
               className={`${
-                group === "Native"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
-              role="menuitem"
-            >
-              Native
-            </span>
-            <span
-              onClick={() => setGroup("Currency")}
-              className={`${
-                group === "Native"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
+                group === "Currency"
+                  ? "disabled bg-gray-700 text-white"
+                  : "cursor-pointer hover:bg-gray-100"
+              }  text-end block px-4 py-2 text-sm text-gray-700`}
               role="menuitem"
             >
               Currency
             </span>
             <span
-              onClick={() => setGroup("Code")}
+              onClick={() => {
+                setGroup("Code");
+                setIsOpen(false);
+              }}
               className={`${
-                group === "Native"
-                  ? "disabled bg-gray-300 text-white"
-                  : "cursor-pointer"
-              }  text-end block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100`}
+                group === "Code"
+                  ? "disabled bg-gray-700 text-white"
+                  : "cursor-pointer hover:bg-gray-100"
+              }  text-end block px-4 py-2 text-sm text-gray-700`}
               role="menuitem"
             >
               Code

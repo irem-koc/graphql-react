@@ -4,6 +4,7 @@ import SearchCountry from "../../components/SearchCountry";
 import { Context } from "../../context/Context";
 import ALL_COUNTRIES from "../../query/ALL_COUNTRIES";
 import ALL_COUNTRIES_BY_CODE from "../../query/ALL_COUNTRIES_BY_CODE";
+import ALL_COUNTRIES_BY_CONTINENT from "../../query/ALL_COUNTRIES_BY_CONTINENT";
 import ALL_COUNTRIES_BY_CURRENCY from "../../query/ALL_COUNTRIES_BY_CURRENCY";
 import ALL_COUNTRIES_BY_NAME from "../../query/ALL_COUNTRIES_BY_NAME";
 import Country from "../../type/country";
@@ -28,6 +29,13 @@ const Countries = () => {
     variables: { term: searchTerm },
     skip: !filterSearch.trim(),
   });
+  const { data: ByContinent } = useQuery(
+    ALL_COUNTRIES_BY_CONTINENT(searchTerm),
+    {
+      variables: { term: searchTerm },
+      skip: !filterSearch.trim(),
+    }
+  );
   useEffect(() => {
     if (data && !loading) {
       setCountries(data);
@@ -46,11 +54,14 @@ const Countries = () => {
     } else if (searchTerm.length > 0 && ByCurrency && group === "Currency") {
       console.log("logged3", ByCurrency);
       setFilteredCountries(ByCurrency.countries);
+    } else if (searchTerm.length > 0 && ByContinent && group === "Continent") {
+      console.log("logged4", ByContinent);
+      setFilteredCountries(ByContinent.countries);
     } else {
       // Filtreleme terimi boşsa ya da sorgu henüz tamamlanmadıysa, tüm ülkeleri göster
       setFilteredCountries(countries?.countries || []);
     }
-  }, [searchTerm, group, ByName, countries, ByCode, ByCurrency]);
+  }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
