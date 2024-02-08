@@ -10,9 +10,8 @@ import ALL_COUNTRIES_BY_NAME from "../../query/ALL_COUNTRIES_BY_NAME";
 import { ContextType } from "../../type/ContextType";
 import Country from "../../type/country";
 import Language from "../../type/language";
-const blue = "blue-500";
-const red = "red-500";
-const PredefinedColors = [blue, red];
+
+const PredefinedColors = ["#3490dc", "#ef4444"];
 
 const Countries = () => {
   const { countries, setCountries, filterSearch, group } =
@@ -37,7 +36,6 @@ const Countries = () => {
     Country[] | undefined
   >();
   useEffect(() => {
-    // Select the 10th item or the last one when filtered countries are loaded
     if (filteredCountries && filteredCountries.length > 0) {
       const indexToSelect = Math.min(9, filteredCountries.length - 1);
       setSelectedItem(indexToSelect);
@@ -84,7 +82,6 @@ const Countries = () => {
       console.log("logged4", ByContinent);
       setFilteredCountries(ByContinent.countries);
     } else {
-      // Filtreleme terimi boşsa ya da sorgu henüz tamamlanmadıysa, tüm ülkeleri göster
       setFilteredCountries(countries?.countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
@@ -122,13 +119,18 @@ const Countries = () => {
           {filteredCountries && filteredCountries?.length > 0 ? (
             filteredCountries?.map((country: Country, index: number) => (
               <tr
+                style={
+                  selectedItem != null && selectedItem === index
+                    ? { backgroundColor: PredefinedColors[currentColorIndex] }
+                    : { backgroundColor: "" }
+                }
                 className={`${
                   selectedItem === null || selectedItem === index
                     ? "cursor-pointer"
                     : "pointer-events-none"
                 } ${
                   selectedItem != null && selectedItem === index
-                    ? `bg-${PredefinedColors[currentColorIndex]} text-white`
+                    ? `text-white`
                     : ""
                 } border-collapse border border-slate-400`}
                 key={country?.code}

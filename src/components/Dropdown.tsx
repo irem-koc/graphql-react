@@ -1,8 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../context/Context";
+import ContextType from "../type/ContextType";
 
 const Dropdown = () => {
-  const { group, setGroup } = useContext(Context);
+  const { group, setGroup } = useContext<ContextType>(Context);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleDropdown = (e) => {
