@@ -10,8 +10,9 @@ import ALL_COUNTRIES_BY_NAME from "../../query/ALL_COUNTRIES_BY_NAME";
 import { ContextType } from "../../type/ContextType";
 import Country from "../../type/country";
 import Language from "../../type/language";
-
-const PredefinedColors = ["blue-500", "red-500"];
+const blue = "blue-500";
+const red = "red-500";
+const PredefinedColors = [blue, red];
 
 const Countries = () => {
   const { countries, setCountries, filterSearch, group } =
@@ -35,28 +36,35 @@ const Countries = () => {
   const [filteredCountries, setFilteredCountries] = useState<
     Country[] | undefined
   >();
+  useEffect(() => {
+    // Select the 10th item or the last one when filtered countries are loaded
+    if (filteredCountries && filteredCountries.length > 0) {
+      const indexToSelect = Math.min(9, filteredCountries.length - 1);
+      setSelectedItem(indexToSelect);
+    }
+  }, [filteredCountries]);
   const { data: ByName } = useQuery(ALL_COUNTRIES_BY_NAME(searchTerm), {
     variables: { term: searchTerm },
-    skip: !searchTerm.trim(), // Sorguyu atla, eğer filtreleme terimi yoksa
+    skip: !searchTerm.trim() || group !== "Name",
   });
   const { data: ByCode } = useQuery(ALL_COUNTRIES_BY_CODE(searchTerm), {
     variables: { term: searchTerm },
-    skip: !filterSearch.trim(),
+    skip: !filterSearch.trim() || group !== "Code",
   });
   const { data: ByCurrency } = useQuery(ALL_COUNTRIES_BY_CURRENCY(searchTerm), {
     variables: { term: searchTerm },
-    skip: !filterSearch.trim(),
+    skip: !filterSearch.trim() || group !== "Currency",
   });
   const { data: ByContinent } = useQuery(
     ALL_COUNTRIES_BY_CONTINENT(searchTerm),
     {
       variables: { term: searchTerm },
-      skip: !filterSearch.trim(),
+      skip: !filterSearch.trim() || group !== "Continent",
     }
   );
   useEffect(() => {
     if (data && !loading) {
-      setCountries(data?.countries);
+      setCountries(data);
     }
   }, [data, loading, setCountries]);
 
@@ -77,7 +85,7 @@ const Countries = () => {
       setFilteredCountries(ByContinent.countries);
     } else {
       // Filtreleme terimi boşsa ya da sorgu henüz tamamlanmadıysa, tüm ülkeleri göster
-      setFilteredCountries(countries || []);
+      setFilteredCountries(countries?.countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
 
@@ -95,7 +103,7 @@ const Countries = () => {
         <thead>
           <tr>
             <th className="border-collapse border border-slate-400">Code</th>
-            <th className="border-collapse border border-slate-400 ">Name</th>
+            <th className="border-collapse border border-slate-400">Name</th>
             <th className="border-collapse border border-slate-400">
               Currency
             </th>
