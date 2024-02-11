@@ -7,5 +7,9 @@ type ContextType = {
   setCountries: React.Dispatch<React.SetStateAction<Country[]>>;
   group: string;
   setGroup: React.Dispatch<React.SetStateAction<string>>;
+  pageItem: number;
+  setPageItem: React.Dispatch<React.SetStateAction<number>>;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 export default ContextType;

@@ -1,67 +1,60 @@
+import { useContext } from "react";
+import { Context } from "../context/Context";
+
 const Pagination = () => {
+  const { pageItem, setPageItem, currentPage, setCurrentPage } =
+    useContext(Context);
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+  const handleChange = async (e) => {
+    const newValue = e.target.value;
+    setPageItem(() => {
+      return newValue;
+    });
+  };
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
   return (
     <div>
-      <nav className="mx-auto" aria-label="Page navigation example">
-        <ul className="flex -space-x-px text-base h-10 my-5 justify-center items-center">
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+      <div className="my-10 flex justify-center items-center gap-3">
+        <div className="inline-block relative w-64">
+          <select
+            value={pageItem}
+            onChange={handleChange}
+            className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+          >
+            {Array.from({ length: 100 }, (_, index) => (
+              <option key={index + 10}>{index + 10}</option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <svg
+              className="fill-current h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
             >
-              Previous
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              className="flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              4
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              5
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              Next
-            </a>
-          </li>
-        </ul>
-      </nav>
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+            </svg>
+          </div>
+        </div>
+        <div className="inline-flex">
+          <button
+            disabled={currentPage === 0}
+            onClick={() => handlePrevPage()}
+            className="bg-gray-300 mr-3 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          >
+            Prev
+          </button>
+          <button
+            onClick={() => handleNextPage()}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
