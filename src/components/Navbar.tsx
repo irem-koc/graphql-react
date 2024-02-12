@@ -1,12 +1,8 @@
-import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
 
-  useEffect(() => {
-    const currentPath = location.pathname;
-  }, [location.pathname]);
   return (
     <nav className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-6">
