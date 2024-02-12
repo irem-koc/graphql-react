@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import ContextType from "../type/ContextType";
+import { ContextType } from "../type/ContextType";
 import Country from "../type/country";
 
 export const Context = createContext<ContextType | null>(null);

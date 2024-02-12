@@ -75,16 +75,12 @@ const Countries = () => {
   // change the data by group name
   useEffect(() => {
     if (searchTerm.length > 0 && ByName && group === "Name") {
-      console.log("logged", ByName);
       setFilteredCountries(ByName.countries);
     } else if (searchTerm.length > 0 && ByCode && group === "Code") {
-      console.log("logged2", ByCode);
       setFilteredCountries(ByCode.countries);
     } else if (searchTerm.length > 0 && ByCurrency && group === "Currency") {
-      console.log("logged3", ByCurrency);
       setFilteredCountries(ByCurrency.countries);
     } else if (searchTerm.length > 0 && ByContinent && group === "Continent") {
-      console.log("logged4", ByContinent);
       setFilteredCountries(ByContinent.countries);
     } else {
       setFilteredCountries((countries && countries?.countries) || []);
@@ -98,7 +94,6 @@ const Countries = () => {
   const currentCountries = useMemo(() => {
     const startIndex = (currentPage - 1) * pageItem;
     const endIndex = startIndex + pageItem;
-    console.log(currentPage, startIndex, endIndex);
     return (
       (filteredCountries && filteredCountries.slice(startIndex, endIndex)) || []
     );
@@ -106,7 +101,6 @@ const Countries = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  console.log(currentCountries, filteredCountries);
 
   return (
     <div className="mx-10 my-10 flex gap-5 flex-col">
