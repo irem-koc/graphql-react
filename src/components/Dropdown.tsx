@@ -3,7 +3,7 @@ import { Context } from "../context/Context";
 import { ContextType } from "../type/ContextType";
 
 const Dropdown = () => {
-  const { group, setGroup } = useContext<ContextType | null>(Context) || {};
+  const { group, setGroup } = useContext<ContextType>(Context);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 

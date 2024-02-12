@@ -83,12 +83,14 @@ const Countries = () => {
     } else if (searchTerm.length > 0 && ByContinent && group === "Continent") {
       setFilteredCountries(ByContinent.countries);
     } else {
-      setFilteredCountries((countries && countries?.countries) || []);
+      console.log("countries ", countries);
+
+      setFilteredCountries(countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
   useEffect(() => {
     if (data && !loading) {
-      setCountries(data);
+      setCountries(data?.countries);
     }
   }, [data, loading, setCountries]);
   const currentCountries = useMemo(() => {

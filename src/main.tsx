@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import ContextProvider from "./context/Context.tsx";
+import ContextProvider from "./context/ContextProvider.tsx";
 import "./index.css";
 import router from "./routes/AppRouter.tsx";
 

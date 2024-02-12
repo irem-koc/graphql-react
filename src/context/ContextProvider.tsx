@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import { ContextType } from "../type/ContextType";
 import Country from "../type/country";
+import { Context } from "./Context";
 
-export const Context = createContext<ContextType | null>(null);
 const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -11,7 +11,7 @@ const ContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [group, setGroup] = useState<string>("Name");
   const [pageItem, setPageItem] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const values = {
+  const values: ContextType = {
     filterSearch,
     setFilterSearch,
     countries,
