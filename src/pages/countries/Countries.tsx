@@ -59,6 +59,8 @@ const Countries = () => {
   );
   // change the data by group name
   useEffect(() => {
+    console.log(group);
+
     if (searchTerm.length > 0 && ByName && group === "Name") {
       setFilteredCountries(ByName.countries);
     } else if (searchTerm.length > 0 && ByCode && group === "Code") {
@@ -100,10 +102,6 @@ const Countries = () => {
   const totalPages = Math.ceil(
     (filteredCountries?.length ?? 0) / pageItem ?? 0
   );
-  useEffect(() => {
-    if (currentCountries.length === 0) {
-    }
-  }, [currentCountries]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
