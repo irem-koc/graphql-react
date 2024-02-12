@@ -53,14 +53,23 @@ const Pagination = ({ totalPages }: PaginationProps) => {
           <button
             disabled={currentPage === 1}
             onClick={() => handlePrevPage()}
-            className="bg-gray-300 mr-3 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+            className={`${
+              currentPage === 1
+                ? "bg-gray-50 text-gray-300 cursor-not-allowed"
+                : "bg-gray-300 hover:bg-gray-400 text-gray-800"
+            } mr-2 font-bold py-2 px-4 rounded`}
           >
             Prev
           </button>
+
           <button
             disabled={currentPage === totalPages}
             onClick={() => handleNextPage()}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+            className={`${
+              currentPage === totalPages
+                ? "bg-gray-50 text-gray-300 cursor-not-allowed"
+                : "bg-gray-300 hover:bg-gray-400 text-gray-800"
+            } font-bold py-2 px-4 rounded`}
           >
             Next
           </button>
