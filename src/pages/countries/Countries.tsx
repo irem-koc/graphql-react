@@ -13,7 +13,8 @@ import Country from "../../type/country";
 import Language from "../../type/language";
 
 const PredefinedColors = ["#3490dc", "#ef4444"];
-
+//TODO: Sayfayı 3e getirip k diye bir arama yap fakat bu aramada pagination doğru düzgün çalışmıyor
+//TODO: 1sn sonra istek atılsın, debouncing
 const Countries = () => {
   const {
     countries,
@@ -24,19 +25,8 @@ const Countries = () => {
     currentPage,
   } = useContext<ContextType>(Context);
 
-  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const [selectedItem, setSelectedItem] = useState<number | null>(9);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-
-  const toggleSelectedItem = (index: number) => {
-    if (selectedItem === null) {
-      setSelectedItem(index);
-    } else {
-      setSelectedItem(null);
-      setCurrentColorIndex((prevIndex) =>
-        prevIndex === PredefinedColors.length - 1 ? 0 : prevIndex + 1
-      );
-    }
-  };
 
   const searchTerm = filterSearch.trim();
   const { loading, error, data } = useQuery(ALL_COUNTRIES);
@@ -44,12 +34,7 @@ const Countries = () => {
     Country[] | undefined
   >();
   // to colorize country
-  useEffect(() => {
-    if (filteredCountries && filteredCountries.length > 0) {
-      const indexToSelect = Math.min(9, filteredCountries.length - 1);
-      setSelectedItem(indexToSelect);
-    }
-  }, [filteredCountries]);
+
   // fetch data from graphql by name, code, currency, and continent
   const { data: ByName } = useQuery(ALL_COUNTRIES_BY_NAME(searchTerm), {
     variables: {
@@ -86,11 +71,13 @@ const Countries = () => {
       setFilteredCountries(countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
+
   useEffect(() => {
     if (data && !loading) {
       setCountries(data?.countries);
     }
   }, [data, loading, setCountries]);
+
   const currentCountries = useMemo(() => {
     const startIndex = (currentPage - 1) * pageItem;
     const endIndex = startIndex + pageItem;
@@ -98,6 +85,25 @@ const Countries = () => {
       (filteredCountries && filteredCountries.slice(startIndex, endIndex)) || []
     );
   }, [currentPage, pageItem, filteredCountries]);
+  const toggleSelectedItem = (index: number) => {
+    console.log("index: ", index);
+    console.log(selectedItem, "selectedItem");
+    if (selectedItem === null) {
+      setSelectedItem(index);
+    } else if (selectedItem === index) {
+      setSelectedItem(null);
+      setCurrentColorIndex((prevIndex) =>
+        prevIndex === PredefinedColors.length - 1 ? 0 : prevIndex + 1
+      );
+    }
+  };
+  const totalPages = Math.ceil(
+    (filteredCountries?.length ?? 0) / pageItem ?? 0
+  );
+  useEffect(() => {
+    if (currentCountries.length === 0) {
+    }
+  }, [currentCountries]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -132,22 +138,28 @@ const Countries = () => {
           {filteredCountries && filteredCountries?.length > 0 ? (
             currentCountries?.map((country: Country, index: number) => (
               <tr
+                id={`${index + (currentPage - 1) * pageItem}`}
                 style={
-                  selectedItem != null && selectedItem === index
+                  selectedItem != null &&
+                  selectedItem === index + (currentPage - 1) * pageItem
                     ? { backgroundColor: PredefinedColors[currentColorIndex] }
                     : { backgroundColor: "" }
                 }
                 className={`${
-                  selectedItem === null || selectedItem === index
+                  selectedItem === null ||
+                  selectedItem === index + (currentPage - 1) * pageItem
                     ? "cursor-pointer"
                     : "pointer-events-none"
                 } ${
-                  selectedItem != null && selectedItem === index
+                  selectedItem != null &&
+                  selectedItem === index + (currentPage - 1) * pageItem
                     ? `text-white`
                     : ""
                 } border-collapse border border-slate-400`}
                 key={country?.code}
-                onClick={() => toggleSelectedItem(index)}
+                onClick={() =>
+                  toggleSelectedItem(index + (currentPage - 1) * pageItem)
+                }
               >
                 <td className="border-collapse border border-slate-400">
                   {country?.code}
@@ -190,9 +202,7 @@ const Countries = () => {
           )}
         </tbody>
       </table>
-      <Pagination
-        totalPages={Math.ceil((filteredCountries?.length ?? 0) / pageItem ?? 0)}
-      />
+      <Pagination totalPages={totalPages} />
     </div>
   );
 };

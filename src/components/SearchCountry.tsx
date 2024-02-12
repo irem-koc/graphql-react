@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Context } from "../context/Context";
 import Dropdown from "./Dropdown";
 
 const SearchCountry = () => {
-  const { filterSearch, setFilterSearch } = useContext(Context) || {};
+  const { filterSearch, setFilterSearch, setCurrentPage } =
+    useContext(Context) || {};
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterSearch]);
 
   return (
     <div className="flex flex-row justify-center items-center gap-5">
