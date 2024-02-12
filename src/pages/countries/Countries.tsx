@@ -83,8 +83,6 @@ const Countries = () => {
     } else if (searchTerm.length > 0 && ByContinent && group === "Continent") {
       setFilteredCountries(ByContinent.countries);
     } else {
-      console.log("countries ", countries);
-
       setFilteredCountries(countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
