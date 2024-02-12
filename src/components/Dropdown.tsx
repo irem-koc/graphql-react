@@ -3,7 +3,7 @@ import { Context } from "../context/Context";
 import { ContextType } from "../type/ContextType";
 
 const Dropdown = () => {
-  const { group, setGroup } = useContext<ContextType>(Context);
+  const { group, setGroup } = useContext<ContextType | null>(Context) || {};
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,7 +48,9 @@ const Dropdown = () => {
           >
             <span
               onClick={() => {
-                setGroup("Name");
+                if (setGroup) {
+                  setGroup("Name");
+                }
                 setIsOpen(false);
               }}
               className={`${
@@ -62,7 +64,9 @@ const Dropdown = () => {
             </span>
             <span
               onClick={() => {
-                setGroup("Continent");
+                if (setGroup) {
+                  setGroup("Continent");
+                }
                 setIsOpen(false);
               }}
               className={`${
@@ -76,7 +80,9 @@ const Dropdown = () => {
             </span>
             <span
               onClick={() => {
-                setGroup("Currency");
+                if (setGroup) {
+                  setGroup("Currency");
+                }
                 setIsOpen(false);
               }}
               className={`${
@@ -90,7 +96,9 @@ const Dropdown = () => {
             </span>
             <span
               onClick={() => {
-                setGroup("Code");
+                if (setGroup) {
+                  setGroup("Code");
+                }
                 setIsOpen(false);
               }}
               className={`${

@@ -5,20 +5,26 @@ interface PaginationProps {
   totalPages: number;
 }
 const Pagination = ({ totalPages }: PaginationProps) => {
-  const { pageItem, setPageItem, currentPage, setCurrentPage } =
-    useContext(Context);
+  const context = useContext(Context);
+  const { pageItem, setPageItem, currentPage, setCurrentPage } = context || {};
 
   const handleNextPage = () => {
-    setCurrentPage((prevPage: number) => prevPage + 1);
+    if (setCurrentPage) {
+      setCurrentPage((prevPage: number) => prevPage + 1);
+    }
   };
   const handleChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.target.value;
-    setPageItem(() => {
-      return Number(newValue);
-    });
+    if (setPageItem) {
+      setPageItem(() => {
+        return Number(newValue);
+      });
+    }
   };
   const handlePrevPage = () => {
-    setCurrentPage((prevPage: number) => Math.max(prevPage - 1, 0));
+    if (setCurrentPage) {
+      setCurrentPage((prevPage: number) => Math.max(prevPage - 1, 0));
+    }
   };
   return (
     <div>
