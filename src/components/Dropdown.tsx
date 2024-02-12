@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Context } from "../context/Context";
 import { ContextType } from "../type/ContextType";
 
@@ -11,21 +11,7 @@ const Dropdown = () => {
     e.preventDefault();
     setIsOpen(!isOpen);
   };
-  const closeDropdown = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      dropdownRef.current.contains(event.target as HTMLElement)
-    ) {
-      setIsOpen(false);
-    }
-  };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", closeDropdown);
-    return () => {
-      document.removeEventListener("mousedown", closeDropdown);
-    };
-  }, []);
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
       <div>
@@ -37,7 +23,6 @@ const Dropdown = () => {
           {group}
         </button>
       </div>
-
       {isOpen && (
         <div className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div
@@ -47,11 +32,13 @@ const Dropdown = () => {
             aria-labelledby="options-menu"
           >
             <span
-              onClick={() => {
-                if (setGroup) {
-                  setGroup("Name");
-                }
-                setIsOpen(false);
+              onClick={(e) => {
+                e.stopPropagation();
+                setGroup("Name");
+                console.log("çalıştı");
+                Promise.resolve().then(() => {
+                  setIsOpen(false);
+                });
               }}
               className={`${
                 group === "Name"
@@ -63,11 +50,13 @@ const Dropdown = () => {
               Name
             </span>
             <span
-              onClick={() => {
-                if (setGroup) {
-                  setGroup("Continent");
-                }
-                setIsOpen(false);
+              onClick={(e) => {
+                e.stopPropagation();
+                setGroup("Continent");
+                console.log("çalıştı");
+                Promise.resolve().then(() => {
+                  setIsOpen(false);
+                });
               }}
               className={`${
                 group === "Continent"
@@ -79,11 +68,13 @@ const Dropdown = () => {
               Continent
             </span>
             <span
-              onClick={() => {
-                if (setGroup) {
-                  setGroup("Currency");
-                }
-                setIsOpen(false);
+              onClick={(e) => {
+                e.stopPropagation();
+                setGroup("Currency");
+                console.log("çalıştı");
+                Promise.resolve().then(() => {
+                  setIsOpen(false);
+                });
               }}
               className={`${
                 group === "Currency"
@@ -95,11 +86,13 @@ const Dropdown = () => {
               Currency
             </span>
             <span
-              onClick={() => {
-                if (setGroup) {
-                  setGroup("Code");
-                }
-                setIsOpen(false);
+              onClick={(e) => {
+                e.stopPropagation();
+                setGroup("Code");
+                console.log("çalıştı");
+                Promise.resolve().then(() => {
+                  setIsOpen(false);
+                });
               }}
               className={`${
                 group === "Code"
@@ -116,5 +109,4 @@ const Dropdown = () => {
     </div>
   );
 };
-
 export default Dropdown;
