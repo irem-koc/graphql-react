@@ -6,7 +6,6 @@ const Navbar = () => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-    console.log("Current Endpoint:", currentPath);
   }, [location.pathname]);
   return (
     <nav className="bg-gray-800">

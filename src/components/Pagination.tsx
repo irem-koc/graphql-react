@@ -1,20 +1,21 @@
-import { useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { Context } from "../context/Context";
 
-const Pagination = () => {
+const Pagination = ({ totalPages }) => {
   const { pageItem, setPageItem, currentPage, setCurrentPage } =
     useContext(Context);
+
   const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+    setCurrentPage((prevPage: number) => prevPage + 1);
   };
-  const handleChange = async (e) => {
+  const handleChange = async (e: ChangeEvent<HTMLSelectElement>) => {
     const newValue = e.target.value;
     setPageItem(() => {
-      return newValue;
+      return Number(newValue);
     });
   };
   const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+    setCurrentPage((prevPage: number) => Math.max(prevPage - 1, 0));
   };
   return (
     <div>
@@ -25,8 +26,8 @@ const Pagination = () => {
             onChange={handleChange}
             className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
           >
-            {Array.from({ length: 100 }, (_, index) => (
-              <option key={index + 10}>{index + 10}</option>
+            {[10, 20, 30, 50].map((value) => (
+              <option key={value}>{value}</option>
             ))}
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -41,13 +42,14 @@ const Pagination = () => {
         </div>
         <div className="inline-flex">
           <button
-            disabled={currentPage === 0}
+            disabled={currentPage === 1}
             onClick={() => handlePrevPage()}
             className="bg-gray-300 mr-3 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
           >
             Prev
           </button>
           <button
+            disabled={currentPage === totalPages}
             onClick={() => handleNextPage()}
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
           >

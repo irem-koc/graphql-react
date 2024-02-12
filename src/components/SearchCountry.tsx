@@ -4,7 +4,6 @@ import Dropdown from "./Dropdown";
 
 const SearchCountry = () => {
   const { filterSearch, setFilterSearch } = useContext(Context);
-  console.log(filterSearch);
 
   return (
     <div className="flex flex-row justify-center items-center gap-5">

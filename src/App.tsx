@@ -13,7 +13,6 @@ function App() {
       <Navbar />
 
       <Outlet />
-      <Pagination />
     </ApolloProvider>
   );
 }

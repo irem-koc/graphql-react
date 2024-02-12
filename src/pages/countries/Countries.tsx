@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
+import Pagination from "../../components/Pagination";
 import SearchCountry from "../../components/SearchCountry";
 import { Context } from "../../context/Context";
 import ALL_COUNTRIES from "../../query/ALL_COUNTRIES";
@@ -14,8 +15,15 @@ import Language from "../../type/language";
 const PredefinedColors = ["#3490dc", "#ef4444"];
 
 const Countries = () => {
-  const { countries, setCountries, filterSearch, group } =
-    useContext<ContextType>(Context);
+  const {
+    countries,
+    setCountries,
+    filterSearch,
+    group,
+    pageItem,
+    currentPage,
+  } = useContext<ContextType>(Context);
+
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
@@ -35,14 +43,20 @@ const Countries = () => {
   const [filteredCountries, setFilteredCountries] = useState<
     Country[] | undefined
   >();
+  // to colorize country
   useEffect(() => {
     if (filteredCountries && filteredCountries.length > 0) {
       const indexToSelect = Math.min(9, filteredCountries.length - 1);
       setSelectedItem(indexToSelect);
     }
   }, [filteredCountries]);
+  // fetch data from graphql by name, code, currency, and continent
   const { data: ByName } = useQuery(ALL_COUNTRIES_BY_NAME(searchTerm), {
-    variables: { term: searchTerm },
+    variables: {
+      term: searchTerm,
+      offset: (currentPage - 1) * pageItem,
+      limit: pageItem,
+    },
     skip: !searchTerm.trim() || group !== "Name",
   });
   const { data: ByCode } = useQuery(ALL_COUNTRIES_BY_CODE(searchTerm), {
@@ -60,15 +74,8 @@ const Countries = () => {
       skip: !filterSearch.trim() || group !== "Continent",
     }
   );
+  // change the data by group name
   useEffect(() => {
-    if (data && !loading) {
-      setCountries(data);
-    }
-  }, [data, loading, setCountries]);
-
-  useEffect(() => {
-    console.log("aaa");
-
     if (searchTerm.length > 0 && ByName && group === "Name") {
       console.log("logged", ByName);
       setFilteredCountries(ByName.countries);
@@ -85,9 +92,23 @@ const Countries = () => {
       setFilteredCountries(countries?.countries || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
+  useEffect(() => {
+    if (data && !loading) {
+      setCountries(data);
+    }
+  }, [data, loading, setCountries]);
+  const currentCountries = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageItem;
+    const endIndex = startIndex + pageItem;
+    console.log(currentPage, startIndex, endIndex);
+    return (
+      (filteredCountries && filteredCountries.slice(startIndex, endIndex)) || []
+    );
+  }, [currentPage, pageItem, filteredCountries]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  console.log(currentCountries, filteredCountries);
 
   return (
     <div className="mx-10 my-10 flex gap-5 flex-col">
@@ -117,7 +138,7 @@ const Countries = () => {
         </thead>
         <tbody>
           {filteredCountries && filteredCountries?.length > 0 ? (
-            filteredCountries?.map((country: Country, index: number) => (
+            currentCountries?.map((country: Country, index: number) => (
               <tr
                 style={
                   selectedItem != null && selectedItem === index
@@ -158,6 +179,7 @@ const Countries = () => {
                     )
                   )}
                 </td>
+
                 <td className="border-collapse border border-slate-400">
                   {country?.continent.name}
                 </td>
@@ -176,6 +198,11 @@ const Countries = () => {
           )}
         </tbody>
       </table>
+      <Pagination
+        totalPages={Math.ceil(
+          filteredCountries && filteredCountries?.length / pageItem
+        )}
+      />
     </div>
   );
 };
