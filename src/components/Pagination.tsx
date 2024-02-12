@@ -7,6 +7,7 @@ interface PaginationProps {
 const Pagination = ({ totalPages }: PaginationProps) => {
   const context = useContext(Context);
   const { pageItem, setPageItem, currentPage, setCurrentPage } = context || {};
+  console.log(totalPages);
 
   const handleNextPage = () => {
     if (setCurrentPage) {
@@ -26,7 +27,7 @@ const Pagination = ({ totalPages }: PaginationProps) => {
       setCurrentPage((prevPage: number) => Math.max(prevPage - 1, 0));
     }
   };
-  return (
+  return totalPages > 0 ? (
     <div>
       <div className="my-10 flex justify-center items-center gap-3">
         <div className="inline-block relative w-64">
@@ -61,12 +62,14 @@ const Pagination = ({ totalPages }: PaginationProps) => {
           >
             Prev
           </button>
-
+          <button className="bg-slate-700 text-white mr-3 p-2 hover:bg-gray-400 text-gray-800 rounded-full">
+            {currentPage}
+          </button>
           <button
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || totalPages === 0}
             onClick={() => handleNextPage()}
             className={`${
-              currentPage === totalPages
+              currentPage === totalPages || totalPages === 0
                 ? "bg-gray-50 text-gray-300 cursor-not-allowed"
                 : "bg-gray-300 hover:bg-gray-400 text-gray-800"
             } font-bold py-2 px-4 rounded`}
@@ -76,6 +79,8 @@ const Pagination = ({ totalPages }: PaginationProps) => {
         </div>
       </div>
     </div>
+  ) : (
+    ""
   );
 };
 
