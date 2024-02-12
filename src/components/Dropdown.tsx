@@ -1,23 +1,27 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Context } from "../context/Context";
-import ContextType from "../type/ContextType";
+import { ContextType } from "../type/ContextType";
 
 const Dropdown = () => {
   const { group, setGroup } = useContext<ContextType>(Context);
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const toggleDropdown = (e) => {
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleDropdown = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsOpen(!isOpen);
   };
-  const closeDropdown = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  const closeDropdown = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      dropdownRef.current.contains(event.target as HTMLElement)
+    ) {
       setIsOpen(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("mousedown", closeDropdown);
-
     return () => {
       document.removeEventListener("mousedown", closeDropdown);
     };

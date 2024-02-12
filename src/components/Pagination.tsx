@@ -1,7 +1,10 @@
 import { ChangeEvent, useContext } from "react";
 import { Context } from "../context/Context";
 
-const Pagination = ({ totalPages }) => {
+interface PaginationProps {
+  totalPages: number;
+}
+const Pagination = ({ totalPages }: PaginationProps) => {
   const { pageItem, setPageItem, currentPage, setCurrentPage } =
     useContext(Context);
 

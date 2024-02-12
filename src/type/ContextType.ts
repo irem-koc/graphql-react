@@ -1,6 +1,6 @@
 import Country from "./country";
 
-type ContextType = {
+export type ContextType = {
   filterSearch: string;
   setFilterSearch: React.Dispatch<React.SetStateAction<string>>;
   countries: Country[];
@@ -12,4 +12,3 @@ type ContextType = {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
-export default ContextType;

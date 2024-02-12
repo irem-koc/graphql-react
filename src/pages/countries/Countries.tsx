@@ -54,8 +54,6 @@ const Countries = () => {
   const { data: ByName } = useQuery(ALL_COUNTRIES_BY_NAME(searchTerm), {
     variables: {
       term: searchTerm,
-      offset: (currentPage - 1) * pageItem,
-      limit: pageItem,
     },
     skip: !searchTerm.trim() || group !== "Name",
   });
@@ -89,7 +87,7 @@ const Countries = () => {
       console.log("logged4", ByContinent);
       setFilteredCountries(ByContinent.countries);
     } else {
-      setFilteredCountries(countries?.countries || []);
+      setFilteredCountries((countries && countries?.countries) || []);
     }
   }, [searchTerm, group, ByName, countries, ByCode, ByCurrency, ByContinent]);
   useEffect(() => {
@@ -199,9 +197,7 @@ const Countries = () => {
         </tbody>
       </table>
       <Pagination
-        totalPages={Math.ceil(
-          filteredCountries && filteredCountries?.length / pageItem
-        )}
+        totalPages={Math.ceil((filteredCountries?.length ?? 0) / pageItem ?? 0)}
       />
     </div>
   );

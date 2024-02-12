@@ -3,7 +3,7 @@ import { Context } from "../context/Context";
 import Dropdown from "./Dropdown";
 
 const SearchCountry = () => {
-  const { filterSearch, setFilterSearch } = useContext(Context);
+  const { filterSearch, setFilterSearch } = useContext(Context) || {};
 
   return (
     <div className="flex flex-row justify-center items-center gap-5">
@@ -20,7 +20,7 @@ const SearchCountry = () => {
             <input
               value={filterSearch}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFilterSearch(e.target.value)
+                setFilterSearch?.(e.target.value)
               }
               type="text"
               id="first_name"
