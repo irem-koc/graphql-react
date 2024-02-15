@@ -13,8 +13,7 @@ import Country from "../../type/country";
 import Language from "../../type/language";
 
 const PredefinedColors = ["#3490dc", "#ef4444"];
-//TODO: Sayfayı 3e getirip k diye bir arama yap fakat bu aramada pagination doğru düzgün çalışmıyor
-//TODO: 1sn sonra istek atılsın, debouncing
+
 const Countries = () => {
   const {
     countries,
@@ -59,8 +58,6 @@ const Countries = () => {
   );
   // change the data by group name
   useEffect(() => {
-    console.log(group);
-
     if (searchTerm.length > 0 && ByName && group === "Name") {
       setFilteredCountries(ByName.countries);
     } else if (searchTerm.length > 0 && ByCode && group === "Code") {
@@ -88,8 +85,6 @@ const Countries = () => {
     );
   }, [currentPage, pageItem, filteredCountries]);
   const toggleSelectedItem = (index: number) => {
-    console.log("index: ", index);
-    console.log(selectedItem, "selectedItem");
     if (selectedItem === null) {
       setSelectedItem(index);
     } else if (selectedItem === index) {

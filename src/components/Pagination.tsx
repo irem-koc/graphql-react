@@ -7,7 +7,6 @@ interface PaginationProps {
 const Pagination = ({ totalPages }: PaginationProps) => {
   const context = useContext(Context);
   const { pageItem, setPageItem, currentPage, setCurrentPage } = context || {};
-  console.log(totalPages);
 
   const handleNextPage = () => {
     if (setCurrentPage) {

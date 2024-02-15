@@ -35,7 +35,6 @@ const Dropdown = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setGroup("Name");
-                console.log("çalıştı");
                 Promise.resolve().then(() => {
                   setIsOpen(false);
                 });
@@ -53,7 +52,6 @@ const Dropdown = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setGroup("Continent");
-                console.log("çalıştı");
                 Promise.resolve().then(() => {
                   setIsOpen(false);
                 });
@@ -71,7 +69,6 @@ const Dropdown = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setGroup("Currency");
-                console.log("çalıştı");
                 Promise.resolve().then(() => {
                   setIsOpen(false);
                 });
@@ -89,7 +86,6 @@ const Dropdown = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setGroup("Code");
-                console.log("çalıştı");
                 Promise.resolve().then(() => {
                   setIsOpen(false);
                 });
